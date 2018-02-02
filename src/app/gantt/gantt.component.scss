@@ -1,0 +1,30 @@
+$dark-color: #f1f1f1;
+$light-color: #f9f9f9;
+
+// For development purposes
+#gant-container {
+  height: 100vh;
+  background-color: #ccc;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#gant-container {
+  .background {
+    fill: none;
+  }
+
+  .header {
+    fill: $light-color;
+  }
+
+  .row:nth-child(odd) {
+    fill: $dark-color;
+  }
+
+  .row:nth-child(even) {
+    fill: $light-color; 
+  }
+}
