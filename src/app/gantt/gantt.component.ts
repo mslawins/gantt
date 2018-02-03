@@ -25,7 +25,10 @@ export class GanttComponent implements OnInit {
       intervalColumnWidth: 80,
 
       headerHeight: 80,
-      rowHeight: 60
+      rowHeight: 60,
+
+      verticalBorderWidth: 1,
+      horizontalBorderHeight: 1,
     };
 
     this.tasks = [
@@ -52,6 +55,14 @@ export class GanttComponent implements OnInit {
 
     dimensions.rows.forEach((row) => {
       this.canvas.rect(row.x, row.y, row.width, row.height).addClass('row');
+    });
+
+    dimensions.verticalBorders.forEach((border) => {
+      this.canvas.rect(border.x, border.y, border.width, border.height).addClass('vertical-border');
+    });
+
+    dimensions.horizontalBorders.forEach((border) => {
+      this.canvas.rect(border.x, border.y, border.width, border.height).addClass('horizontal-border');
     });
   }
 }

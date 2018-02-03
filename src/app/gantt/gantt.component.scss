@@ -1,10 +1,11 @@
+$very-dark-color: #dedede;
 $dark-color: #f1f1f1;
 $light-color: #f9f9f9;
 
 // For development purposes
 #gant-container {
   height: 100vh;
-  background-color: #ccc;
+  background-color: $very-dark-color;;
 
   display: flex;
   justify-content: center;
@@ -26,5 +27,13 @@ $light-color: #f9f9f9;
 
   .row:nth-child(even) {
     fill: $light-color; 
+  }
+
+  .vertical-border {
+    fill: $very-dark-color;
+  }
+
+  .horizontal-border {
+    fill: $very-dark-color; 
   }
 }

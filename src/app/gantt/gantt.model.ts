@@ -19,12 +19,34 @@ export class Gantt {
       });
     });
 
+    let verticalBorders = [];
+    _.range(this.config.intervalsAmount).forEach((index) => {
+      verticalBorders.push({
+        x: this.config.titleColumnWidth + (index * this.config.intervalColumnWidth),
+        y: 0,
+        width: this.config.verticalBorderWidth,
+        height: overallHeight});
+    });
+
+    let horizontalBorders = [];
+    _.range(this.tasksAmount).forEach((index) => {
+      horizontalBorders.push({
+        x: 0,
+        y: this.config.headerHeight + (index * this.config.rowHeight),
+        width: overallWidth,
+        height: this.config.horizontalBorderHeight,
+      });
+    });
+
+
     return {
       overallWidth: overallWidth,
       overallHeight: overallHeight,
       headerWidth: overallWidth,
       headerHeight: this.config.headerHeight,
       rows: rowsDimensions,
+      verticalBorders: verticalBorders,
+      horizontalBorders: horizontalBorders,
     }
   }
 }
