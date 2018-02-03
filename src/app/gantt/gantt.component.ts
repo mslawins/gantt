@@ -16,6 +16,7 @@ export class GanttComponent implements OnInit {
   config: any;
   canvas: any;
   tasks: Task[];
+  timeIntervals: string[];
 
   ngOnInit() {
     this.config = {
@@ -39,8 +40,10 @@ export class GanttComponent implements OnInit {
       {name: 'feature3', start: '18.05', end: '18.06'},
     ];
 
-    this.gantt = new Gantt(this.config, this.tasks.length);
+    this.timeIntervals = ['18.01', '18.02', '18.03', '18.04', '18.05', '18.06',
+                          '18.07', '18.08', '18.09', '18.10', '18.11', '18.12'];
 
+    this.gantt = new Gantt(this.config, this.tasks.length);
 
     this.canvas = Snap('.gantt');
     this.draw();
@@ -63,6 +66,14 @@ export class GanttComponent implements OnInit {
 
     dimensions.horizontalBorders.forEach((border) => {
       this.canvas.rect(border.x, border.y, border.width, border.height).addClass('horizontal-border');
+    });
+
+    dimensions.headerTextAnchors.forEach((anchor, index) => {
+      this.canvas.text(anchor.x, anchor.y, this.timeIntervals[index]).addClass('header-text');
+    });
+
+    dimensions.titleTextAnchors.forEach((anchor, index) => {
+      this.canvas.text(anchor.x, anchor.y, this.tasks[index].name).addClass('title-text');
     });
   }
 }

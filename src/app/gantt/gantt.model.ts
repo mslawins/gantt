@@ -38,6 +38,21 @@ export class Gantt {
       });
     });
 
+    let headerTextAnchors = [];
+    _.range(this.config.intervalsAmount).forEach((index) => {
+      headerTextAnchors.push({
+        x: this.config.titleColumnWidth + (this.config.intervalColumnWidth * index) + (this.config.intervalColumnWidth / 2),
+        y: this.config.headerHeight / 2,
+      });
+    });
+
+    let titleTextAnchors = [];
+    _.range(this.tasksAmount).forEach((index) => {
+      titleTextAnchors.push({
+        x: this.config.titleColumnWidth / 2,
+        y: this.config.headerHeight + (this.config.rowHeight * index) + (this.config.rowHeight / 2),
+      });
+    });
 
     return {
       overallWidth: overallWidth,
@@ -47,6 +62,8 @@ export class Gantt {
       rows: rowsDimensions,
       verticalBorders: verticalBorders,
       horizontalBorders: horizontalBorders,
+      headerTextAnchors: headerTextAnchors,
+      titleTextAnchors: titleTextAnchors,
     }
   }
 }

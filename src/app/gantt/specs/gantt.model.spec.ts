@@ -1,4 +1,4 @@
-import { Gantt } from './gantt.model';
+import { Gantt } from './../gantt.model';
 
 describe('Gantt model', () => {
   const config = {
@@ -78,6 +78,8 @@ describe('Gantt model', () => {
     expect(this.dimensions.verticalBorders[5].y).toEqual(0);
     expect(this.dimensions.verticalBorders[5].width).toEqual(1);
     expect(this.dimensions.verticalBorders[5].height).toEqual(420);
+
+    // there is more
   });
 
   it('should return horizontal borders dimensions', () => {
@@ -100,5 +102,38 @@ describe('Gantt model', () => {
     expect(this.dimensions.horizontalBorders[3].y).toEqual(340);
     expect(this.dimensions.horizontalBorders[3].width).toEqual(750);
     expect(this.dimensions.horizontalBorders[3].height).toEqual(1);
+  });
+
+  it('should return header text anchors', () => {
+    expect(this.dimensions.headerTextAnchors[0].x).toEqual(175);
+    expect(this.dimensions.headerTextAnchors[0].y).toEqual(50);
+
+    expect(this.dimensions.headerTextAnchors[1].x).toEqual(225);
+    expect(this.dimensions.headerTextAnchors[1].y).toEqual(50);
+
+    expect(this.dimensions.headerTextAnchors[2].x).toEqual(275);
+    expect(this.dimensions.headerTextAnchors[2].y).toEqual(50);
+
+    expect(this.dimensions.headerTextAnchors[3].x).toEqual(325);
+    expect(this.dimensions.headerTextAnchors[3].y).toEqual(50);
+
+    expect(this.dimensions.headerTextAnchors[4].x).toEqual(375);
+    expect(this.dimensions.headerTextAnchors[4].y).toEqual(50);
+
+    // there is more
+  });
+
+  it('should return title text anchors', () => {
+    expect(this.dimensions.titleTextAnchors[0].x).toEqual(75);
+    expect(this.dimensions.titleTextAnchors[0].y).toEqual(140);
+
+    expect(this.dimensions.titleTextAnchors[1].x).toEqual(75);
+    expect(this.dimensions.titleTextAnchors[1].y).toEqual(220);
+
+    expect(this.dimensions.titleTextAnchors[2].x).toEqual(75);
+    expect(this.dimensions.titleTextAnchors[2].y).toEqual(300);
+
+    expect(this.dimensions.titleTextAnchors[3].x).toEqual(75);
+    expect(this.dimensions.titleTextAnchors[3].y).toEqual(380);
   });
 });

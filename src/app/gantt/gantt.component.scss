@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
 $very-dark-color: #dedede;
 $dark-color: #f1f1f1;
 $light-color: #f9f9f9;
@@ -35,5 +37,13 @@ $light-color: #f9f9f9;
 
   .horizontal-border {
     fill: $very-dark-color; 
+  }
+
+  .header-text, .title-text {
+    text-anchor: middle;
+    alignment-baseline: middle;
+    font-size: 14px; 
+    fill: #333;
+    font-family: 'Lato', serif;
   }
 }
