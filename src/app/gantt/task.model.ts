@@ -1,5 +1,6 @@
 export interface Task {
   name: string;
-  start: string;
-  end: string;
+  start: number;
+  end: number;
+  span: number;
 }
