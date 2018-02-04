@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { Gantt } from './gantt.model';
 import { Bar } from './bar.model';
+import { Arrow } from './arrow.model';
 import { Task } from './task.model';
 
 declare var Snap: any;
@@ -19,6 +20,7 @@ export class GanttComponent implements OnInit {
   tasks: Task[];
   timeIntervals: string[];
   bar: Bar;
+  arrow: Arrow;
 
   ngOnInit() {
     this.config = {
@@ -33,18 +35,18 @@ export class GanttComponent implements OnInit {
       verticalBorderWidth: 1,
       horizontalBorderHeight: 1,
 
-      barRadius: 20,
+      barRadius: 3,
 
-      upperLowerPadding: 10,
-      sidesPadding: 5,
+      upperLowerPadding: 15,
+      sidesPadding: 10,
     };
 
     this.tasks = [
-      {name: 'feature1', start: 1, end: 4, span: 4},
-      {name: 'feature2', start: 3, end: 3, span: 1},
-      {name: 'feature3', start: 2, end: 8, span: 7},
-      {name: 'feature4', start: 7, end: 10, span: 4},
-      {name: 'feature5', start: 5, end: 12, span: 7},
+      {id: 0, name: 'feature1', start: 1, end: 4, span: 4, depends: [1]},
+      {id: 1, name: 'feature2', start: 4, end: 4, span: 1, depends: [2]},
+      {id: 2, name: 'feature3', start: 2, end: 8, span: 7, depends: [3]},
+      {id: 3, name: 'feature4', start: 7, end: 10, span: 4, depends: [4]},
+      {id: 4, name: 'feature5', start: 5, end: 12, span: 7, depends: []},
     ];
 
     this.timeIntervals = ['18.01', '18.02', '18.03', '18.04', '18.05', '18.06',
@@ -52,10 +54,12 @@ export class GanttComponent implements OnInit {
 
     this.gantt = new Gantt(this.config, this.tasks.length);
     this.bar = new Bar(this.config, this.tasks);
+    this.arrow = new Arrow(this.config, this.tasks, this.bar.getBars());
 
     this.canvas = Snap('.gantt');
     this.drawGantt();
     this.drawBars();
+    this.drawArrows();
   }
 
   drawGantt() {
@@ -91,6 +95,14 @@ export class GanttComponent implements OnInit {
 
     bars.forEach((bar) => {
       this.canvas.rect(bar.x, bar.y, bar.width, bar.height, bar.radius).addClass('bar');
+    });
+  }
+
+  drawArrows() {
+    const arrows = this.arrow.getArrows();
+
+    arrows.forEach((path) => {
+      this.canvas.path(path).addClass('arrow');
     });
   }
 }

@@ -7,6 +7,7 @@ $bar-color: #ec644b;
 $text-color: #333;
 $font-size: 14px;
 $font-family: 'Lato', serif;
+$arrow-width: 2;
 
 // For development purposes
 #gant-container {
@@ -53,5 +54,11 @@ $font-family: 'Lato', serif;
 
   .bar {
     fill: $bar-color; 
+  }
+
+  .arrow {
+    fill: none; 
+    stroke: $text-color;
+    stroke-width: $arrow-width;
   }
 }

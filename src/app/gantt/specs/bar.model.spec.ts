@@ -20,8 +20,8 @@ describe('Bar model', () => {
   };
 
   const tasks = [
-    {name: 'feature1', start: 1, end: 4, span: 4},
-    {name: 'feature2', start: 3, end: 3, span: 1},
+    {id: 1, name: 'feature1', start: 1, end: 4, span: 4, depends: []},
+    {id: 2, name: 'feature2', start: 3, end: 3, span: 1, depends: []},
   ];
 
   beforeEach(() => {
