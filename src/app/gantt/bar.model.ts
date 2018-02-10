@@ -1,9 +1,10 @@
 import * as _ from 'lodash';
 
+import { Config } from './config.model';
 import { Task } from './task.model';
 
 export class Bar {
-  constructor(private config: any, private tasks: Task[]) {}
+  constructor(private config: Config, private tasks: Task[]) {}
 
   getBars() {
     let rawBars = [];

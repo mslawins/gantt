@@ -1,7 +1,8 @@
+import { Config } from './../config.model';
 import { Gantt } from './../gantt.model';
 
 describe('Gantt model', () => {
-  const config = {
+  const config: Config = {
     intervalsAmount: 12,
 
     titleColumnWidth: 150,
@@ -12,6 +13,11 @@ describe('Gantt model', () => {
 
     verticalBorderWidth: 1,
     horizontalBorderHeight: 1,
+
+    barRadius: 3,
+
+    upperLowerPadding: 15,
+    sidesPadding: 10,
   };
 
   beforeEach(() => {

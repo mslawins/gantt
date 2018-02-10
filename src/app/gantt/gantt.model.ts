@@ -1,9 +1,10 @@
 import * as _ from 'lodash';
 
+import { Config } from './config.model';
 import { Task } from './task.model';
 
 export class Gantt {
-  constructor(private config: any, private tasksAmount: number) {}
+  constructor(private config: Config, private tasksAmount: number) {}
 
   getDimensions() {
     const overallWidth = this.config.titleColumnWidth + (this.config.intervalsAmount * this.config.intervalColumnWidth);

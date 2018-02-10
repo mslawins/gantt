@@ -1,26 +1,27 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { Gantt } from './gantt.model';
-import { Bar } from './bar.model';
 import { Arrow } from './arrow.model';
+import { Config } from './config.model';
+import { Bar } from './bar.model';
+import { Gantt } from './gantt.model';
 import { Task } from './task.model';
 
 declare var Snap: any;
 
 @Component({
-  selector: 'gantt',
+  selector: 'ms-gantt',
   templateUrl: './gantt.component.html',
   styleUrls: ['./gantt.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class GanttComponent implements OnInit {
+  arrow: Arrow;
+  bar: Bar;
   gantt: Gantt;
-  config: any;
+  config: Config;
   canvas: any;
   tasks: Task[];
   timeIntervals: string[];
-  bar: Bar;
-  arrow: Arrow;
 
   ngOnInit() {
     this.config = {

@@ -1,7 +1,8 @@
 import { Bar } from './../bar.model';
+import { Config } from './../config.model';
 
 describe('Bar model', () => {
-  const config = {
+  const config: Config = {
     intervalsAmount: 12,
 
     titleColumnWidth: 150,
