@@ -4,7 +4,7 @@ import { Config } from './config.model';
 import { Task } from './task.model';
 
 export class Arrow {
-  constructor(private config: Config, private tasks: Task[], private bars: any) {}
+  constructor(private config: Config, private tasks: Task[], private bars: any[]) {}
 
   getArrows() {
     let arrows = [];
@@ -56,11 +56,7 @@ export class Arrow {
         });
     } else if (destinationBar.x < sourceBar.x) {
       start.x += 5;
-      path = Snap.format(`M {start_x} {start_y} v {down_1}
-                          a {curve} {curve} 0 0 1 -{curve} {curve} H {left}
-                          a {curve} {curve} 0 0 {clockwise} -{curve} {curve_y} V {down_2}
-                          a {curve} {curve} 0 0 {clockwise} {curve} {curve_y}
-                          L {end_x} {end_y} m -5 -5 l 5 5 l -5 5`,
+      path = Snap.format(`M {start_x} {start_y} v {down_1} a {curve} {curve} 0 0 1 -{curve} {curve} H {left} a {curve} {curve} 0 0 {clockwise} -{curve} {curve_y} V {down_2} a {curve} {curve} 0 0 {clockwise} {curve} {curve_y} L {end_x} {end_y} m -5 -5 l 5 5 l -5 5`,
         {
           start_x: start.x,
           start_y: start.y,
