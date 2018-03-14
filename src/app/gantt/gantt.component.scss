@@ -19,6 +19,7 @@ $arrow-width: 2;
   align-items: center;
 }
 
+// Production
 #gant-container {
   .background {
     fill: none;
@@ -60,5 +61,21 @@ $arrow-width: 2;
     fill: none; 
     stroke: $text-color;
     stroke-width: $arrow-width;
+  }
+
+  .legend-background {
+    fill: $light-color;
+  }
+
+  .marker {
+    fill: $bar-color;
+  }
+
+  .legend-text {
+    text-anchor: start;
+    alignment-baseline: middle;
+    font-size: $font-size; 
+    fill: $text-color;
+    font-family: $font-family;
   }
 }
