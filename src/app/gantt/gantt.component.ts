@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+
+import { ReImg } from 'foo/foo';
 
 import { Arrow } from './arrow.model';
 import { Config } from './config.model';
@@ -27,6 +29,8 @@ export class GanttComponent implements OnInit {
   legendConfig: LegendConfig;
   legendAnchor: Point;
   legendEntries: string[];
+
+  @ViewChild('ganttHook') ganttHook;
 
   ngOnInit() {
     this.config = {
@@ -143,5 +147,9 @@ export class GanttComponent implements OnInit {
     texts.forEach((text, index) => {
       this.canvas.text(text.x, text.y, this.legendEntries[index]).addClass('legend-text');
     });
+  }
+
+  onSaveClick() {
+    ReImg.fromSvg(this.ganttHook.nativeElement).downloadPng();
   }
 }
