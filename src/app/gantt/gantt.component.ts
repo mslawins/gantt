@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { ReImg } from 'foo/foo';
+import { ReImg } from 'foo/foo'; // TODO integrate with npm version when ready
 
 import { Arrow } from './arrow.model';
 import { Config } from './config.model';
@@ -9,13 +9,14 @@ import { Gantt } from './gantt.model';
 import { Task } from './task.model';
 import { Legend, LegendConfig, Point } from './legend.model';
 
+import * as Styles from './styles.model';
+
 declare var Snap: any;
 
 @Component({
   selector: 'ms-gantt',
   templateUrl: './gantt.component.html',
   styleUrls: ['./gantt.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class GanttComponent implements OnInit {
   arrow: Arrow;
@@ -86,6 +87,10 @@ export class GanttComponent implements OnInit {
     this.canvas.attr({
       width: ganttDimensions.overallWidth + legendDimensions.width,
       height: ganttDimensions.overallHeight > legendDimensions.height ? ganttDimensions.overallHeight : legendDimensions.height});
+    this.canvas.rect(0, 0,
+      ganttDimensions.overallWidth + legendDimensions.width,
+      ganttDimensions.overallHeight > legendDimensions.height ? ganttDimensions.overallHeight : legendDimensions.height
+    ).attr(Styles.ganttBackground);
 
     this.drawGantt(ganttDimensions);
     this.drawBars();
@@ -94,27 +99,31 @@ export class GanttComponent implements OnInit {
   }
 
   drawGantt(dimensions) {
-    this.canvas.rect(0, 0, dimensions.overallWidth, dimensions.overallHeight).addClass('background')
-    this.canvas.rect(0, 0, dimensions.headerWidth, dimensions.headerHeight).addClass('header')
+    this.canvas.rect(0, 0, dimensions.overallWidth, dimensions.overallHeight).attr(Styles.ganttBackground);
+    this.canvas.rect(0, 0, dimensions.headerWidth, dimensions.headerHeight).attr(Styles.ganttHeader);
 
-    dimensions.rows.forEach((row) => {
-      this.canvas.rect(row.x, row.y, row.width, row.height).addClass('row');
+    dimensions.rows.forEach((row, index) => {
+      if (index % 2 === 0) {
+        this.canvas.rect(row.x, row.y, row.width, row.height).attr(Styles.ganttRow(Styles.lightColor));
+      } else {
+        this.canvas.rect(row.x, row.y, row.width, row.height).attr(Styles.ganttRow(Styles.darkColor));
+      }
     });
 
     dimensions.verticalBorders.forEach((border) => {
-      this.canvas.rect(border.x, border.y, border.width, border.height).addClass('vertical-border');
+      this.canvas.rect(border.x, border.y, border.width, border.height).attr(Styles.ganttBorder);
     });
 
     dimensions.horizontalBorders.forEach((border) => {
-      this.canvas.rect(border.x, border.y, border.width, border.height).addClass('horizontal-border');
+      this.canvas.rect(border.x, border.y, border.width, border.height).attr(Styles.ganttBorder);
     });
 
     dimensions.headerTextAnchors.forEach((anchor, index) => {
-      this.canvas.text(anchor.x, anchor.y, this.timeIntervals[index]).addClass('header-text');
+      this.canvas.text(anchor.x, anchor.y, this.timeIntervals[index]).attr(Styles.ganttText);
     });
 
     dimensions.titleTextAnchors.forEach((anchor, index) => {
-      this.canvas.text(anchor.x, anchor.y, this.tasks[index].name).addClass('title-text');
+      this.canvas.text(anchor.x, anchor.y, this.tasks[index].name).attr(Styles.ganttText);
     });
   }
 
@@ -122,7 +131,7 @@ export class GanttComponent implements OnInit {
     const bars = this.bar.getBars();
 
     bars.forEach((bar) => {
-      this.canvas.rect(bar.x, bar.y, bar.width, bar.height, bar.radius).addClass('bar');
+      this.canvas.rect(bar.x, bar.y, bar.width, bar.height, bar.radius).attr(Styles.ganttBar(Styles.barColors[0]));
     });
   }
 
@@ -135,17 +144,17 @@ export class GanttComponent implements OnInit {
   }
 
   drawLegend(dimensions) {
-    this.canvas.rect(dimensions.x, dimensions.y, dimensions.width, dimensions.height).addClass('legend-background');
+    this.canvas.rect(dimensions.x, dimensions.y, dimensions.width, dimensions.height).attr(Styles.legendBackground);
 
     const markers = this.legend.getMarkers();
     const texts = this.legend.getTexts();
 
     markers.forEach(marker => {
-      this.canvas.rect(marker.x, marker.y, marker.width, marker.height, marker.radius).addClass('marker');
+      this.canvas.rect(marker.x, marker.y, marker.width, marker.height, marker.radius).attr(Styles.legendMarker(Styles.barColors[0]));
     });
 
     texts.forEach((text, index) => {
-      this.canvas.text(text.x, text.y, this.legendEntries[index]).addClass('legend-text');
+      this.canvas.text(text.x, text.y, this.legendEntries[index]).attr(Styles.legendText);
     });
   }
 

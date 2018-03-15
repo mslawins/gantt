@@ -1,81 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
-$very-dark-color: #dedede;
-$dark-color: #f1f1f1;
-$light-color: #f9f9f9;
-$bar-color: #ec644b;
-$text-color: #333;
-$font-size: 14px;
-$font-family: 'Lato', serif;
-$arrow-width: 2;
+.button {
+  font-size: 16px;
+}
 
-// For development purposes
-#gant-container {
-  height: 100vh;
-  background-color: $very-dark-color;;
-
+.gant-container {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-// Production
-#gant-container {
-  .background {
-    fill: none;
-  }
-
-  .header {
-    fill: $light-color;
-  }
-
-  .row:nth-child(odd) {
-    fill: $dark-color;
-  }
-
-  .row:nth-child(even) {
-    fill: $light-color; 
-  }
-
-  .vertical-border {
-    fill: $very-dark-color;
-  }
-
-  .horizontal-border {
-    fill: $very-dark-color; 
-  }
-
-  .header-text, .title-text {
-    text-anchor: middle;
-    alignment-baseline: middle;
-    font-size: $font-size; 
-    fill: $text-color;
-    font-family: $font-family;
-  }
-
-  .bar {
-    fill: $bar-color; 
-  }
-
-  .arrow {
-    fill: none; 
-    stroke: $text-color;
-    stroke-width: $arrow-width;
-  }
-
-  .legend-background {
-    fill: $light-color;
-  }
-
-  .marker {
-    fill: $bar-color;
-  }
-
-  .legend-text {
-    text-anchor: start;
-    alignment-baseline: middle;
-    font-size: $font-size; 
-    fill: $text-color;
-    font-family: $font-family;
-  }
 }
