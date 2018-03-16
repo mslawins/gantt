@@ -62,11 +62,11 @@ export class GanttComponent implements OnInit {
     };
 
     this.tasks = [
-      {id: 0, name: 'feature1', start: 1, end: 4, span: 4, depends: []},
-      {id: 1, name: 'feature2', start: 4, end: 4, span: 1, depends: []},
-      {id: 2, name: 'feature3', start: 2, end: 8, span: 7, depends: []},
-      {id: 3, name: 'feature4', start: 7, end: 10, span: 4, depends: []},
-      {id: 4, name: 'feature5', start: 5, end: 12, span: 7, depends: []},
+      {name: 'feature1', subtasks: [{id: 1, name: 'f1_subtask1', start: 1, end: 4, span: 4, depends: []}]},
+      {name: 'feature2', subtasks: [{id: 1, name: 'f2_subtask1', start: 4, end: 4, span: 1, depends: []}]},
+      {name: 'feature3', subtasks: [{id: 1, name: 'f3_subtask1', start: 2, end: 8, span: 7, depends: []}]},
+      {name: 'feature4', subtasks: [{id: 1, name: 'f4_subtask1', start: 7, end: 10, span: 4, depends: []}]},
+      {name: 'feature5', subtasks: [{id: 1, name: 'f5_subtask1', start: 5, end: 12, span: 7, depends: []}]},
     ];
 
     this.timeIntervals = ['18.01', '18.02', '18.03', '18.04', '18.05', '18.06',
