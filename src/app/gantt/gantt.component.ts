@@ -7,7 +7,6 @@ import { Config } from './config.model';
 import { Bar } from './bar.model';
 import { Gantt } from './gantt.model';
 import { Task } from './task.model';
-import { Legend, LegendConfig, Point } from './legend.model';
 
 import * as Styles from './styles.model';
 
@@ -26,10 +25,6 @@ export class GanttComponent implements OnInit {
   canvas: any;
   tasks: Task[];
   timeIntervals: string[];
-  legend: Legend;
-  legendConfig: LegendConfig;
-  legendAnchor: Point;
-  legendEntries: string[];
 
   @ViewChild('ganttHook') ganttHook;
 
@@ -52,15 +47,6 @@ export class GanttComponent implements OnInit {
       sidesPadding: 10,
     };
 
-    this.legendConfig = {
-      offset: 10,
-      padding: 30,
-      markerSize: 26,
-      markerRadius: 4,
-      markerTextOffset: 15,
-      textWidth: 55,
-    };
-
     this.tasks = [
       {id: 0, name: 'feature1', start: 1, end: 4, span: 4, depends: []},
       {id: 1, name: 'feature2', start: 4, end: 4, span: 1, depends: []},
@@ -72,30 +58,21 @@ export class GanttComponent implements OnInit {
     this.timeIntervals = ['18.01', '18.02', '18.03', '18.04', '18.05', '18.06',
                           '18.07', '18.08', '18.09', '18.10', '18.11', '18.12'];
 
-    this.legendEntries = ['Entry1', 'Entry2', 'Entry3'];
-
     this.gantt = new Gantt(this.config, this.tasks.length);
     this.bar = new Bar(this.config, this.tasks);
     this.arrow = new Arrow(this.config, this.tasks, this.bar.getBars());
-
     const ganttDimensions = this.gantt.getDimensions();
-    this.legendAnchor = {x: ganttDimensions.overallWidth, y: 0};
-    this.legend = new Legend(this.legendAnchor, this.legendConfig, 3);
-    const legendDimensions = this.legend.getDimensions();
 
     this.canvas = Snap('.gantt');
-    this.canvas.attr({
-      width: ganttDimensions.overallWidth + legendDimensions.width,
-      height: ganttDimensions.overallHeight > legendDimensions.height ? ganttDimensions.overallHeight : legendDimensions.height});
+    this.canvas.attr({ width: ganttDimensions.overallWidth, height: ganttDimensions.overallHeight});
     this.canvas.rect(0, 0,
-      ganttDimensions.overallWidth + legendDimensions.width,
-      ganttDimensions.overallHeight > legendDimensions.height ? ganttDimensions.overallHeight : legendDimensions.height
+      ganttDimensions.overallWidth,
+      ganttDimensions.overallHeight,
     ).attr(Styles.ganttBackground);
 
     this.drawGantt(ganttDimensions);
     this.drawBars();
     this.drawArrows();
-    this.drawLegend(legendDimensions);
   }
 
   drawGantt(dimensions) {
@@ -140,21 +117,6 @@ export class GanttComponent implements OnInit {
 
     arrows.forEach((path) => {
       this.canvas.path(path).addClass('arrow');
-    });
-  }
-
-  drawLegend(dimensions) {
-    this.canvas.rect(dimensions.x, dimensions.y, dimensions.width, dimensions.height).attr(Styles.legendBackground);
-
-    const markers = this.legend.getMarkers();
-    const texts = this.legend.getTexts();
-
-    markers.forEach(marker => {
-      this.canvas.rect(marker.x, marker.y, marker.width, marker.height, marker.radius).attr(Styles.legendMarker(Styles.barColors[0]));
-    });
-
-    texts.forEach((text, index) => {
-      this.canvas.text(text.x, text.y, this.legendEntries[index]).attr(Styles.legendText);
     });
   }
 
