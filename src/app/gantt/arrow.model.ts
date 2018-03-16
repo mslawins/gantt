@@ -10,11 +10,11 @@ export class Arrow {
     let arrows = [];
 
     this.tasks.forEach((task) => {
-      task.subtasks[0].depends.forEach((depends) => {
+      task.depends.forEach((depends) => {
         arrows.push(this.calculateArrow(
           task,
-          this.tasks[depends].subtasks[0],
-          this.bars[task.subtasks[0].id],
+          this.tasks[depends],
+          this.bars[task.id],
           this.bars[depends]
         ));
       });

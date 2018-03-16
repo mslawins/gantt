@@ -11,9 +11,9 @@ export class Bar {
 
     this.tasks.forEach((task, index) => {
       rawBars.push({
-        x: this.config.titleColumnWidth + (task.subtasks[0].start * this.config.intervalColumnWidth),
+        x: this.config.titleColumnWidth + (task.start * this.config.intervalColumnWidth),
         y: this.config.headerHeight + (index * this.config.rowHeight),
-        width: task.subtasks[0].span * this.config.intervalColumnWidth,
+        width: task.span * this.config.intervalColumnWidth,
         height: this.config.rowHeight,
         radius: this.config.barRadius,
       });
