@@ -1,10 +1,14 @@
 import * as _ from 'lodash';
 
 import { Config } from './config.model';
+import { Point } from './point.model';
 import { Task } from './task.model';
 
 export class Gantt {
-  constructor(private config: Config, private tasksAmount: number) {}
+  constructor(
+    private anchor: Point,
+    private config: Config,
+    private tasksAmount: number) {}
 
   getDimensions() {
     const overallWidth = this.config.titleColumnWidth + (this.config.intervalsAmount * this.config.intervalColumnWidth);
@@ -13,8 +17,8 @@ export class Gantt {
     let rowsDimensions = [];
     _.range(this.tasksAmount).forEach((index) => {
       rowsDimensions.push({
-        x: 0,
-        y: this.config.headerHeight + (index * this.config.rowHeight),
+        x: this.anchor.x,
+        y: this.anchor.y + this.config.headerHeight + (index * this.config.rowHeight),
         width: overallWidth,
         height: this.config.rowHeight,
       });
@@ -23,8 +27,8 @@ export class Gantt {
     let verticalBorders = [];
     _.range(this.config.intervalsAmount).forEach((index) => {
       verticalBorders.push({
-        x: this.config.titleColumnWidth + (index * this.config.intervalColumnWidth),
-        y: 0,
+        x: this.anchor.x + this.config.titleColumnWidth + (index * this.config.intervalColumnWidth),
+        y: this.anchor.y,
         width: this.config.verticalBorderWidth,
         height: overallHeight});
     });
@@ -32,8 +36,8 @@ export class Gantt {
     let horizontalBorders = [];
     _.range(this.tasksAmount).forEach((index) => {
       horizontalBorders.push({
-        x: 0,
-        y: this.config.headerHeight + (index * this.config.rowHeight),
+        x: this.anchor.x,
+        y: this.anchor.y + this.config.headerHeight + (index * this.config.rowHeight),
         width: overallWidth,
         height: this.config.horizontalBorderHeight,
       });
@@ -42,16 +46,16 @@ export class Gantt {
     let headerTextAnchors = [];
     _.range(this.config.intervalsAmount).forEach((index) => {
       headerTextAnchors.push({
-        x: this.config.titleColumnWidth + (this.config.intervalColumnWidth * index) + (this.config.intervalColumnWidth / 2),
-        y: this.config.headerHeight / 2,
+        x: this.anchor.x + this.config.titleColumnWidth + (this.config.intervalColumnWidth * index) + (this.config.intervalColumnWidth / 2),
+        y: this.anchor.y + this.config.headerHeight / 2,
       });
     });
 
     let titleTextAnchors = [];
     _.range(this.tasksAmount).forEach((index) => {
       titleTextAnchors.push({
-        x: this.config.titleColumnWidth / 2,
-        y: this.config.headerHeight + (this.config.rowHeight * index) + (this.config.rowHeight / 2),
+        x: this.anchor.x + this.config.titleColumnWidth / 2,
+        y: this.anchor.y + this.config.headerHeight + (this.config.rowHeight * index) + (this.config.rowHeight / 2),
       });
     });
 

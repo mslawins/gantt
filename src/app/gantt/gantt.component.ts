@@ -2,11 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ReImg } from 'foo/foo'; // TODO integrate with npm version when ready
 
+import { Point } from './point.model';
 import { Arrow } from './arrow.model';
 import { Config } from './config.model';
 import { Bar } from './bar.model';
 import { Gantt } from './gantt.model';
 import { Task } from './task.model';
+
+import { Release, ReleaseConfig, ReleaseGraph } from './release.model';
 
 import * as Styles from './styles.model';
 
@@ -25,6 +28,13 @@ export class GanttComponent implements OnInit {
   canvas: any;
   tasks: Task[];
   timeIntervals: string[];
+
+  ganttAnchor: Point;
+
+  releases: Release[];
+  releaseAnchor: Point;
+  releaseGraph: ReleaseGraph;
+  releaseConfig: ReleaseConfig;
 
   @ViewChild('ganttHook') ganttHook;
 
@@ -58,26 +68,66 @@ export class GanttComponent implements OnInit {
     this.timeIntervals = ['18.01', '18.02', '18.03', '18.04', '18.05', '18.06',
                           '18.07', '18.08', '18.09', '18.10', '18.11', '18.12'];
 
-    this.gantt = new Gantt(this.config, this.tasks.length);
-    this.bar = new Bar(this.config, this.tasks);
+    this.releases = [
+      {name: 'rel1', start: 1, end: 5, span: 5},
+      {name: 'rel2', start: 4, end: 8, span: 5},
+      {name: 'rel3', start: 7, end: 10, span: 4}];
+
+    this.releaseAnchor = {x: 0, y: 0};
+    this.releaseConfig = {padding: 10, barHeight: 18, barRadius: 4, offset: 1};
+
+    this.releaseGraph = new ReleaseGraph(
+      this.releaseAnchor,
+      this.config,
+      this.releaseConfig,
+      this.releases,
+      this.timeIntervals);
+
+    let releasesDimensions = this.releaseGraph.getOverallDimension();
+    this.ganttAnchor = {x: 0, y: releasesDimensions.height};
+
+    this.gantt = new Gantt(this.ganttAnchor, this.config, this.tasks.length);
+    this.bar = new Bar(this.ganttAnchor, this.config, this.tasks);
     this.arrow = new Arrow(this.config, this.tasks, this.bar.getBars());
     const ganttDimensions = this.gantt.getDimensions();
 
     this.canvas = Snap('.gantt');
-    this.canvas.attr({ width: ganttDimensions.overallWidth, height: ganttDimensions.overallHeight});
+    this.canvas.attr({ width: ganttDimensions.overallWidth, height: ganttDimensions.overallHeight + releasesDimensions.height});
     this.canvas.rect(0, 0,
       ganttDimensions.overallWidth,
-      ganttDimensions.overallHeight,
+      ganttDimensions.overallHeight + releasesDimensions.height,
     ).attr(Styles.ganttBackground);
 
+    this.drawReleases();
     this.drawGantt(ganttDimensions);
     this.drawBars();
     this.drawArrows();
   }
 
+  drawReleases() {
+    let dimensions = this.releaseGraph.getOverallDimension();
+    let bars = this.releaseGraph.getBars();
+    let borders = this.releaseGraph.getVerticalBorders();
+    let texts = this.releaseGraph.getText();
+
+    this.canvas.rect(dimensions.x, dimensions.y, dimensions.width, dimensions.height).attr(Styles.releasesBackground);
+
+    borders.forEach(border => {
+      this.canvas.rect(border.x, border.y, border.width, border.height).attr(Styles.ganttBorder);
+    });
+
+    bars.forEach(bar => {
+      this.canvas.rect(bar.x, bar.y, bar.width, bar.height, bar.radius).attr(Styles.releasesBar);
+    });
+
+    texts.forEach((text, index) => {
+      this.canvas.text(text.x, text.y, this.releases[index].name).attr(Styles.releaseText);
+    });
+  }
+
   drawGantt(dimensions) {
-    this.canvas.rect(0, 0, dimensions.overallWidth, dimensions.overallHeight).attr(Styles.ganttBackground);
-    this.canvas.rect(0, 0, dimensions.headerWidth, dimensions.headerHeight).attr(Styles.ganttHeader);
+    this.canvas.rect(dimensions.x, dimensions.y, dimensions.overallWidth, dimensions.overallHeight).attr(Styles.ganttBackground);
+    this.canvas.rect(dimensions.x, dimensions.y, dimensions.headerWidth, dimensions.headerHeight).attr(Styles.ganttHeader);
 
     dimensions.rows.forEach((row, index) => {
       if (index % 2 === 0) {

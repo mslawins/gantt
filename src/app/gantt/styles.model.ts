@@ -9,6 +9,23 @@ const fontSize = '14';
 const fontFamily = "'Lato', serif";
 const arrowWidth = '2';
 
+// releases
+export const releasesBackground = {
+  fill: '#fff',
+}
+
+export const releasesBar = {
+  fill: barColors[1],
+}
+
+export const releaseText = {
+  textAnchor: 'middle',
+  alignmentBaseline: 'middle',
+  fontSize: '12',
+  fill: '#fff',
+  fontFamily: fontFamily,
+}
+
 // gantt
 export const ganttBackground = {
   fill: '#fff',
@@ -43,21 +60,4 @@ export const arrow = {
   fill: 'none',
   stroke: textColor,
   strokeWidth: arrowWidth,
-}
-
-// legend
-export const legendBackground = {
-  fill: lightColor,
-}
-
-export const legendMarker = (color) => {
-  return {fill: color };
-}
-
-export const legendText = {
-  textAnchor: 'start',
-  alignmentBaseline: 'middle',
-  fontSize: fontSize,
-  fill: textColor,
-  fontFamily: fontFamily,
 }
