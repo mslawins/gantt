@@ -1,13 +1,30 @@
 import * as _ from 'lodash';
 
-import { Config } from './config.model';
 import { Point } from './point.model';
 import { Task } from './task.model';
 
-export class Gantt {
+export interface GanttConfig {
+  intervalsAmount: number;
+
+  titleColumnWidth: number;
+  intervalColumnWidth: number;
+
+  headerHeight: number;
+  rowHeight: number;
+
+  verticalBorderWidth: number;
+  horizontalBorderHeight: number;
+
+  barRadius: number;
+
+  upperLowerPadding: number;
+  sidesPadding: number;
+}
+
+export class GanttGraph {
   constructor(
     private anchor: Point,
-    private config: Config,
+    private config: GanttConfig,
     private tasksAmount: number) {}
 
   getDimensions() {

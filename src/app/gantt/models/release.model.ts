@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
-import { Config } from './config.model';
+import { GanttConfig } from './gantt.model';
+import { Bar } from './bar.model';
 import { Point } from './point.model';
 
 export interface Release {
@@ -19,15 +20,26 @@ export interface ReleaseConfig {
 
 export class ReleaseGraph {
   height: number;
-  bars: any;
+  bars: Bar[];
+  overall: any;
+  verticalBorders: any;
+  texts: any;
 
   constructor(
     private anchor: Point,
-    private ganttConfig: Config,
+    private ganttConfig: GanttConfig,
     private releaseConfig: ReleaseConfig,
     private releases: Release[],
     private timeIntervals: string[]) {
+
     this.height = (this.releases.length * this.releaseConfig.barHeight) + (this.releases.length + 1) * this.releaseConfig.padding;
+
+    this.overall = {
+      x: this.anchor.x,
+      y: this.anchor.y,
+      width: this.ganttConfig.titleColumnWidth + this.timeIntervals.length * this.ganttConfig.intervalColumnWidth,
+      height: this.height,
+    }
 
     let rawBars = []
     _.forEach(this.releases, (release, index) => {
@@ -50,27 +62,31 @@ export class ReleaseGraph {
         radius: bar.radius,
       });
     });
-  }
 
-  getOverallDimension() {
-    return {
-      x: this.anchor.x,
-      y: this.anchor.y,
-      width: this.ganttConfig.titleColumnWidth + this.timeIntervals.length * this.ganttConfig.intervalColumnWidth,
-      height: this.height,
-    }
-  }
-
-  getVerticalBorders() {
-    let verticalBorders = [];
+    this.verticalBorders = [];
     _.range(this.timeIntervals.length).forEach((index) => {
-      verticalBorders.push({
+      this.verticalBorders.push({
         x: this.anchor.x + this.ganttConfig.titleColumnWidth + (index * this.ganttConfig.intervalColumnWidth),
         y: this.anchor.y,
         width: this.ganttConfig.verticalBorderWidth,
         height: this.height});
     });
-    return verticalBorders;
+
+    this.texts = [];
+    _.forEach(this.releases, (release, index) => {
+      this.texts.push({
+        x: this.bars[index].x + (this.bars[index].width / 2),
+        y: this.bars[index].y + (this.bars[index].height / 2) + this.releaseConfig.offset,
+      });
+    });
+  }
+
+  getOverallDimension() {
+    return this.overall;
+  }
+
+  getVerticalBorders() {
+    return this.verticalBorders;
   }
 
   getBars() {
@@ -78,13 +94,6 @@ export class ReleaseGraph {
   }
 
   getText() {
-    let texts = [];
-    _.forEach(this.releases, (release, index) => {
-      texts.push({
-        x: this.bars[index].x + (this.bars[index].width / 2),
-        y: this.bars[index].y + (this.bars[index].height / 2) + this.releaseConfig.offset,
-      });
-    });
-    return texts;
+    return this.texts;
   }
 }

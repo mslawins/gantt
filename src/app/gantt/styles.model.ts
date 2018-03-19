@@ -1,8 +1,7 @@
 const veryDarkColor = '#dedede';
 export const darkColor = '#f1f1f1';
 export const lightColor = '#f9f9f9';
-
-export const barColors = ['#ec644b', '#2980b9', '#27ae60'];
+export const barColors = ['#ec644b', '#2980b9'];
 
 const textColor = '#333';
 const fontSize = '14';

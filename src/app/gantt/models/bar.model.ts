@@ -1,16 +1,24 @@
 import * as _ from 'lodash';
 
-import { Config } from './config.model';
+import { GanttConfig } from './gantt.model';
 import { Point } from './point.model';
 import { Task } from './task.model';
 
-export class Bar {
+export interface Bar {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  radius: number;
+}
+
+export class BarGraph {
   constructor(
     private anchor: Point,
-    private config: Config,
+    private config: GanttConfig,
     private tasks: Task[]) {}
 
-  getBars() {
+  getBars(): Bar[] {
     let rawBars = [];
     _.forEach(this.tasks, (task, index) => {
       rawBars.push({

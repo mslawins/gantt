@@ -1,47 +1,31 @@
-import { Bar } from './../bar.model';
-import { Config } from './../config.model';
+import { Bar, BarGraph } from './../models/bar.model';
+import { GanttConfig } from './../models/gantt.model';
+import { Task } from './../models/task.model';
+
+import { ganttConfig, anchor } from './test-data';
 
 describe('Bar model', () => {
-  const config: Config = {
-    intervalsAmount: 12,
-
-    titleColumnWidth: 150,
-    intervalColumnWidth: 80,
-
-    headerHeight: 80,
-    rowHeight: 60,
-
-    verticalBorderWidth: 1,
-    horizontalBorderHeight: 1,
-
-    barRadius: 20,
-
-    upperLowerPadding: 10,
-    sidesPadding: 5,
-  };
-
-  const tasks = [
+  const tasks: Task[] = [
     {id: 1, name: 'feature1', start: 1, end: 4, span: 4, depends: []},
     {id: 2, name: 'feature2', start: 3, end: 3, span: 1, depends: []},
   ];
 
   beforeEach(() => {
-    let bar = new Bar(config, tasks);
+    let bar = new BarGraph(anchor, ganttConfig, tasks);
     this.bars = bar.getBars();
-
   });
 
   it('should return bar dimensions', () => {
-    expect(this.bars[0].x).toEqual(235);
-    expect(this.bars[0].y).toEqual(90);
-    expect(this.bars[0].width).toEqual(310);
-    expect(this.bars[0].height).toEqual(40);
-    expect(this.bars[0].radius).toEqual(20);
+    expect(this.bars[0].x).toEqual(220);
+    expect(this.bars[0].y).toEqual(125);
+    expect(this.bars[0].width).toEqual(180);
+    expect(this.bars[0].height).toEqual(50);
+    expect(this.bars[0].radius).toEqual(3);
 
-    expect(this.bars[1].x).toEqual(395);
-    expect(this.bars[1].y).toEqual(150);
-    expect(this.bars[1].width).toEqual(70);
-    expect(this.bars[1].height).toEqual(40);
-    expect(this.bars[1].radius).toEqual(20);
+    expect(this.bars[1].x).toEqual(320);
+    expect(this.bars[1].y).toEqual(205);
+    expect(this.bars[1].width).toEqual(30);
+    expect(this.bars[1].height).toEqual(50);
+    expect(this.bars[1].radius).toEqual(3);
   });
 });

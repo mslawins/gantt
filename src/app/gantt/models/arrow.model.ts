@@ -1,10 +1,11 @@
 declare var Snap: any;
 
-import { Config } from './config.model';
+import { Bar } from './bar.model';
+import { GanttConfig } from './gantt.model';
 import { Task } from './task.model';
 
 export class Arrow {
-  constructor(private config: Config, private tasks: Task[], private bars: any[]) {}
+  constructor(private config: GanttConfig, private tasks: Task[], private bars: Bar[]) {}
 
   getArrows() {
     let arrows = [];
